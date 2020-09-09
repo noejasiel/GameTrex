@@ -1,0 +1,20 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.conteiner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.conteiner-score {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.canvas {
+  border: 1px solid black;
+}
