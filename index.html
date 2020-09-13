@@ -4,15 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@1,900&display=swap"
+      rel="stylesheet"
+    />
     <title>Document</title>
   </head>
   <body>
     <div class="conteiner">
-      <div class="conteiner-score">
-        <p>score</p>
-        <p>123</p>
+      <div class="conteiner-score" id="conteiner-score"></div>
+      <div class="conteiner-canvas">
+        <canvas id="canvas" class="canvas" width="700px" height="300px">
+        </canvas>
+        <div class="retry" id="retry">
+          <img src="./assets/gameover (1).png" alt="" />
+          <img
+            id="btn_retry"
+            class="img-retry"
+            src="./assets/restart.png"
+            alt=""
+          />
+        </div>
       </div>
-      <canvas id="canvas" class="canvas" width="700px" height="300px"></canvas>
     </div>
 
     <script src="./main.js"></script>
