@@ -9,6 +9,11 @@ var retry = document.getElementById("btn_retry");
 retry.addEventListener("click", function () {
   location.reload();
 });
+retry.addEventListener("keyup", function (event) {
+  if (event.keyCode == 32) {
+    location.reload();
+  }
+});
 
 var dino_src = "./assets/trex.png";
 var cactus_src = "./assets/obstacle_alone.png";
@@ -48,19 +53,29 @@ var trex = {
   saltando: false,
 };
 
+// crecion de imagen
 var pajaro = new Image();
 pajaro.src = pajaro_src;
 pajaro.addEventListener("load", dibujarPajaro);
 
-function dibujarPajaro() {
-  cont_canvas.drawImage(pajaro, pajaros.movX, 200);
-}
-function movPajaro() {
-  if (pajaros.movX < -100) {
-    pajaros.movX = 790;
-  }
-  pajaros.movX -= 4.5;
-}
+var cactus = new Image();
+cactus.src = cactus_src;
+cactus.style.margin = "4px 4px";
+cactus.addEventListener("load", dibujarCactus);
+
+var cactus2 = new Image();
+cactus2.src = cactus2_src;
+cactus2.addEventListener("load", dibujarCactus2);
+
+var piso = new Image();
+piso.src = piso_src;
+
+var Dino = new Image();
+Dino.src = dino_src;
+
+var Dino_down = new Image();
+Dino_down.src = dino_down_src;
+Dino_down.addEventListener("load", dibujarDino);
 
 var sol2 = new Image();
 sol2.src = sol_src2;
@@ -71,13 +86,29 @@ var sol = new Image();
 sol.src = sol_src;
 sol.addEventListener("load", dibujarSol);
 
+var nube = new Image();
+nube.src = cloud_src;
+nube.addEventListener("load", dibujarNube);
+
+function dibujarPajaro() {
+  if (score > 1000) {
+    cont_canvas.drawImage(pajaro, pajaros.movX, 200);
+  }
+}
+function movPajaro() {
+  if (pajaros.movX < -100) {
+    pajaros.movX = 790;
+  }
+  pajaros.movX -= 4.5;
+}
+
 function dibujarSol() {
   if (sol_mov < 300) {
     canvas.style.background = "#020E30";
     cont_canvas.drawImage(sol2, sol_mov, 50);
   } else {
     // canvas.style.background = "#0000";
-    canvas.style.background = "#020E30";
+    canvas.style.background = "#0000";
     cont_canvas.drawImage(sol, sol_mov, 50);
   }
 }
@@ -87,10 +118,6 @@ function movSol() {
   }
   sol_mov -= 0.5;
 }
-
-var nube = new Image();
-nube.src = cloud_src;
-nube.addEventListener("load", dibujarNube);
 
 function dibujarNube() {
   cont_canvas.drawImage(nube, nube_mov.movX1, 107, 64, 23);
@@ -112,25 +139,6 @@ function movNube() {
   nube_mov.movX1 -= 1.24;
 }
 
-var cactus = new Image();
-cactus.src = cactus_src;
-cactus.style.margin = "4px 4px";
-cactus.addEventListener("load", dibujarCactus);
-
-var cactus2 = new Image();
-cactus2.src = cactus2_src;
-cactus2.addEventListener("load", dibujarCactus2);
-
-var piso = new Image();
-piso.src = piso_src;
-
-var Dino = new Image();
-Dino.src = dino_src;
-
-var Dino_down = new Image();
-Dino_down.src = dino_down_src;
-Dino_down.addEventListener("load", dibujarDino);
-
 function dibujarCactus2() {
   cont_canvas.drawImage(cactus2, cactus_mov2.x, cactus_mov2.y, 20, 25);
 }
@@ -144,61 +152,124 @@ function movCactus() {
   if (cactus_mov.x <= -128) {
     cactus_mov.x = 721;
   }
-  cont_canvas.fillStyle = "#ff2626"; // Color rojo
+  // cont_canvas.fillStyle = "#ff2626"; // Color rojo
 
-  cont_canvas.beginPath(); // Iniciar trazo
-  cont_canvas.arc(trex.x + 50, trex.y + 30, 1, 0, Math.PI * 2, true); // Dibujar un punto usando la funcion arc
-  cont_canvas.arc(cactus_mov.x, cactus_mov.y + 10, 1, 0, Math.PI * 2, true);
-  cont_canvas.fill();
+  // cont_canvas.beginPath(); // Iniciar trazo
+  // cont_canvas.arc(trex.x + 50, trex.y + 30, 1, 0, Math.PI * 2, true); // Dibujar un punto usando la funcion arc
+  // // cont_canvas.arc(cactus_mov.x, cactus_mov.y + 10, 1, 0, Math.PI * 2, true);
+  // cont_canvas.arc(cactus_mov2.x, cactus_mov2.y + 10, 1, 0, Math.PI * 2, true);
+  // cont_canvas.fill();
 }
+function movCactus2() {
+  cactus_mov2.x -= cactus_mov2.movX;
+  if (cactus_mov2.x <= -128) {
+    cactus_mov2.x = 721;
+  }
+}
+
 function Colision() {
-  if (cactus_mov.x < 160 && cactus_mov.x > 140) {
-    console.log(
-      trex.x + 50,
-      // trex.y + 31,
-      cactus_mov.x,
-      // cactus_mov.y + 10,
-      "velocidad" + cactus_mov.movX
-    );
+  // if (cactus_mov2.x < 160 && cactus_mov2.x > 130) {
+  //   console.log(
+  //     trex.x + 45,
+  //     // trex.y + 31,
+  //     cactus_mov2.x,
+  //     // cactus_mov.y + 10,
+  //     "velocidad" + cactus_mov2.movX
+  //   );
+  // }
+
+  if (
+    cactus_mov2.y + 10 == trex.y + 31 &&
+    cactus_mov2.x < 138 &&
+    cactus_mov2.x > 135
+  ) {
+    if (cactus_mov2.movX === 2) {
+      colision_canvas = true;
+      console.log("colision cac2 2");
+    }
   }
 
-  // es la parte donde hace colion el dino con el cactus
-  // vel 2  y 6
+  // vel 4
+  if (
+    cactus_mov2.y + 10 == trex.y + 31 &&
+    cactus_mov2.x < 154 &&
+    cactus_mov2.x > 149
+  ) {
+    if (cactus_mov2.movX === 4) {
+      colision_canvas = true;
+      console.log("colision cac2 4");
+    }
+  }
+  // vel 6
+  if (
+    cactus_mov2.y + 10 == trex.y + 31 &&
+    cactus_mov2.x > 149 &&
+    cactus_mov2.x < 153
+  ) {
+    if (cactus_mov2.movX === 6) {
+      console.log("colision cac2 6");
+      colision_canvas = true;
+    }
+  }
+  // vel 8
+  if (
+    cactus_mov2.y + 10 == trex.y + 31 &&
+    cactus_mov2.x < 153 &&
+    cactus_mov2.x > 144
+  ) {
+    if (cactus_mov2.movX === 8) {
+      console.log("colision cac2 8");
+      colision_canvas = true;
+    }
+  }
+
+  // es la parte donde hace colion el dino con el PIMER CACTUS
+  // vel 2
   if (
     cactus_mov.y + 10 == trex.y + 31 &&
-    cactus_mov.x < 153 &&
-    cactus_mov.x > 150
+    cactus_mov.x < 138 &&
+    cactus_mov.x > 135
   ) {
-    colision_canvas = true;
-    console.log("colision");
+    if (cactus_mov.movX == 2) {
+      colision_canvas = true;
+      console.log("colision cac 2");
+    }
   }
   // vel 4
-  else if (
+  if (
     cactus_mov.y + 10 == trex.y + 31 &&
     cactus_mov.x < 155 &&
     cactus_mov.x > 150 &&
     cactus_mov.movX === 4
   ) {
-    colision_canvas = true;
-    console.log("colision 4");
+    if (cactus_mov.movX === 4) {
+      colision_canvas = true;
+      console.log("colision cac 4");
+    }
+  }
+  // vel 6
+  if (
+    cactus_mov.y + 10 == trex.y + 31 &&
+    cactus_mov.x < 152 &&
+    cactus_mov.x > 145
+  ) {
+    if (cactus_mov.movX === 6) {
+      colision_canvas = true;
+      console.log("colision cac 6");
+    }
   }
 
   // vel 8
-  else if (
+  if (
     cactus_mov.y + 10 == trex.y + 31 &&
     cactus_mov.x < 154 &&
     cactus_mov.x > 152 &&
     cactus_mov.movX === 8
   ) {
-    colision_canvas = true;
-    console.log("colison 8");
-  }
-}
-
-function movCactus2() {
-  cactus_mov2.x -= cactus_mov2.movX;
-  if (cactus_mov2.x <= -128) {
-    cactus_mov2.x = 720;
+    if (cactus_mov.movX === 8) {
+      colision_canvas = true;
+      console.log("colision cac 8");
+    }
   }
 }
 
@@ -234,6 +305,7 @@ function borrarCanvas() {
     canvas.width = width;
     canvas.heigth = heigth;
     var conten = document.getElementById("conteiner-score");
+    // imprimiendo score en la pantalla
     conten.innerHTML = `
         <p>score</p>
         <p > ${score}</p>
