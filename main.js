@@ -288,6 +288,9 @@ document.addEventListener("keyup", function (event) {
     saltar();
   }
 });
+document.addEventListener("click", function (event) {
+  saltar();
+});
 var width = 700;
 var heigth = 300;
 

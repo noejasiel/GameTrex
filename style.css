@@ -40,3 +40,12 @@ body {
 .img-retry {
   width: 70px;
 }
+
+@media (max-width: 750px) {
+  .conteiner {
+    max-width: 100%;
+  }
+  .canvas {
+    width: 100%;
+  }
+}
